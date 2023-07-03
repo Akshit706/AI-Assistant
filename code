@@ -1,0 +1,197 @@
+import pyttsx3
+import speech_recognition as sr
+import datetime
+import wikipedia
+import webbrowser
+import pywhatkit
+import pyjokes
+import wolframalpha
+import os
+import subprocess
+import numpy as np
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+engine.setProperty('voice',voices[0].id)
+
+def speak(audio):
+    engine.say(audio)
+    engine.runAndWait()
+
+
+def wishme():
+    hour = int(datetime.datetime.now().hour)
+    if hour>=0 and hour<12:
+        speak("Good Morning!")
+    elif hour>=12 and hour<18:
+        speak("Good Afternoon!")
+    else:
+        speak("Good Evening!")
+
+    speak("Hello Boss. I am KARMA. Please tell me how may I help you ")
+def takeCommand():
+    ...
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.pause_threshold = 0.7
+        audio = r.listen(source)
+    try:
+        print("Recognizing...")
+        query = r.recognize_google(audio, language='en-in')  # Using google for voice recognition.
+        print(f"User said: {query}\n")  # User query will be printed.
+
+    except Exception as e:
+        # print(e)
+        print("Say that again please...")  # Say that again will be printed in case of improper voice
+        return "None"  # None string will be returned
+    return query
+
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
+volume.GetMute()
+# volume.GetMasterVolumeLevel())
+print(volume.GetVolumeRange())
+
+
+if __name__=="__main__":
+    wishme()
+    while True:
+        query = takeCommand().lower()
+        if 'wikipedia' in query:  # if wikipedia found in the query then this block will be executed
+            speak('Searching Wikipedia...')
+            query = query.replace("wikipedia", "")
+            results = wikipedia.summary(query, sentences=2)
+            speak("According to Wikipedia")
+            print(f"{results}\n")
+            speak(results)
+
+        elif 'volume 1' in query:
+            volume.SetMasterVolumeLevel(-32.0, None)
+
+        elif 'volume 2' in query:
+            volume.SetMasterVolumeLevel(-23.0, None)
+
+        elif 'volume 3' in query:
+            volume.SetMasterVolumeLevel(-17.0, None)
+
+        elif 'volume 4' in query:
+            volume.SetMasterVolumeLevel(-12.0, None)
+
+        elif 'volume 5' in query:
+            volume.SetMasterVolumeLevel(-6.0, None)
+        elif 'full' in query:
+            volume.SetMasterVolumeLevel(0, None)
+        elif 'mute' in query:
+            volume.GetMute()
+
+
+        elif ' open youtube' in query:
+            webbrowser.open("youtube.com")
+
+        elif 'play' in query:
+            video = query.replace("play", "")
+            speak('playing' + video)
+            pywhatkit.playonyt(video)
+
+        elif 'open google' in query:
+            webbrowser.open("google.com")
+
+        elif 'search' in query:
+            search = query.replace("search", "")
+            speak('searching' + search)
+            pywhatkit.search(search)
+
+        elif 'who' in query:
+            search = query.replace("who is", "")
+            speak('searching' + search)
+            pywhatkit.search(search)
+            #
+        elif 'what ' in query:
+            search = query.replace("what is", "")
+            speak('searching' + search)
+            pywhatkit.search(search)
+            #
+        elif 'how' in query:
+            search = query.replace("how are", "")
+            speak('searching' + search)
+            pywhatkit.search(search)
+
+
+
+
+
+
+        elif 'the time' in query:
+            strTime = datetime.datetime.now().strftime("%H:%M:%S")
+            print(f"{strTime}\n")
+            speak(f"Sir, the time is {strTime}")
+
+        elif 'open my linkedin' in query:
+            webbrowser.open("https://www.linkedin.com/feed/")
+
+        elif 'joke' in query:
+            speak(pyjokes.get_joke())
+
+
+
+
+        elif 'send mummy on whatsapp' in query:
+            message = query.replace("send mummy on whatsapp", "")
+            speak('sending' + message)
+            hour = int(datetime.datetime.now().hour)
+            min = int(datetime.datetime.now().minute)
+            sec = int(datetime.datetime.now().second)
+            pywhatkit.sendwhatmsg("+919694402355",message,hour,min+1)
+
+        elif 'send didi on whatsapp' in query:
+            message = query.replace("send didi on whatsapp", "")
+            speak('sending' + message)
+            hour = int(datetime.datetime.now().hour)
+            min = int(datetime.datetime.now().minute)
+            sec = int(datetime.datetime.now().second)
+            pywhatkit.sendwhatmsg("+918949267051", message, hour, min + 1)
+
+        elif 'send chacha ji on whatsapp' in query:
+            message = query.replace("send chachaji on whatsapp", "")
+            speak('sending' + message)
+            hour = int(datetime.datetime.now().hour)
+            min = int(datetime.datetime.now().minute)
+            sec = int(datetime.datetime.now().second)
+            pywhatkit.sendwhatmsg("1+(480)3703061", message, hour, min + 1)
+
+
+
+
+
+
+        elif 'ok thank you' in query:
+            speak("no problem sir")
+            break
+        elif 'ok' in query:
+            speak("no problem sir")
+            break
+        elif 'thank you' in query:
+            speak("no problem sir")
+            break
+        elif 'good' in query:
+            speak("no problem sir")
+            break
+
+
+
+
+
+
+
+
+
+
+
+
