@@ -1,6 +1,6 @@
 The provided code represents an AI Assistant implementation using various libraries such as `pyttsx3`, `speech_recognition`, `datetime`, `wikipedia`, `webbrowser`, `pywhatkit`, `pyjokes`, `wolframalpha`, `os`, `subprocess`, `numpy`, `ctypes`, and `comtypes`.
 
-The AI Assistant, named Jarvis, is designed to perform a variety of tasks based on voice commands. It utilizes speech recognition to understand user queries and responds accordingly. Here are some key functionalities of the AI Assistant:
+The AI Assistant, named KARMA, is designed to perform a variety of tasks based on voice commands. It utilizes speech recognition to understand user queries and responds accordingly. Here are some key functionalities of the AI Assistant:
 
 1. Speech synthesis: The assistant uses the `pyttsx3` library to convert text into speech and provides audible responses.
 
